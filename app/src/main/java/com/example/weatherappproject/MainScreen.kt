@@ -1,5 +1,6 @@
 package com.example.weatherappproject
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -53,12 +55,13 @@ fun MainScreen() {
                     .wrapContentSize(Alignment.Center)
             )
 
+            // сохранение состояния поля для ввода
             var textValue by remember { mutableStateOf("") }
 
             OutlinedTextField(
                 value = textValue,
                 onValueChange = { newTextValue ->
-                    textValue = newTextValue  // Обновление переменной с текстовым значением при вводе
+                    textValue = newTextValue  // обновление переменной с текстовым значением при вводе
                 },
                 label = { Text(text = stringResource(id = R.string.hint_user_name)) },
                 modifier = Modifier
@@ -73,8 +76,23 @@ fun MainScreen() {
                 )
             )
 
+            // сохранение состояния текста результата
+            var resultTextState by remember { mutableStateOf("test") }
+            var mutableResult = remember { mutableStateOf(resultTextState) }
+
             Button(
-                onClick = { /* Handle button click */ },
+                onClick = {
+                    // если пользователь не ввел данные о городе
+                    if (textValue.isEmpty()) {
+                        mutableResult.value = "Введите город!"
+                    } else {
+                        val key: String = "67c959ae5a4cb9cbc3fad3c8fe6f5d37"
+                        val url: String = "https://api.openweathermap.org/data/2.5/weather?q=$textValue&appid=$key&lang=ru"
+
+                        val executor = GetURLData(mutableResult)
+                        executor.execute(url)
+                    }
+                },
                 modifier = Modifier
                     .padding(top = 20.dp)
                     .fillMaxWidth()
@@ -86,8 +104,9 @@ fun MainScreen() {
                 )
             }
 
+
             Text(
-                text = "test",
+                text = mutableResult.value,
                 modifier = Modifier
                     .padding(top = 30.dp)
                     .fillMaxWidth()
