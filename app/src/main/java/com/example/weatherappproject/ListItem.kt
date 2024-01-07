@@ -17,19 +17,19 @@ import androidx.compose.ui.unit.dp
 import com.example.weatherappproject.data.CityEntity
 
 @Composable
-fun ListItem(item: CityEntity, onClick: (CityEntity) -> Unit) {
+fun ListItem(item: CityEntity, onClickInsert: (CityEntity) -> Unit, onClickDelete: (CityEntity) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(5.dp)
-            .clickable { onClick(item) }
+            .clickable { onClickInsert(item) }
     ) {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Text(text = item.cityName, modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
                 .padding(10.dp))
-            IconButton(onClick = { }) {
+            IconButton(onClick = { onClickDelete(item) }) {
                 Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete city from db")
             }
         }

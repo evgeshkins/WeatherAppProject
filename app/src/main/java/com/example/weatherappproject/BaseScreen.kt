@@ -60,10 +60,14 @@ fun BaseScreen(
         LazyColumn(modifier = Modifier.fillMaxWidth())
         {
             items(citiesList.value){item ->
-                ListItem(item){
-                    baseViewModel.cityEntity = it
-                    baseViewModel.cityInput.value = it.cityName
-                }
+                ListItem(item,
+                    {
+                        baseViewModel.cityEntity = it
+                        baseViewModel.cityInput.value = it.cityName
+                    },
+                    {
+                        baseViewModel.deleteCity(it)
+                    })
             }
         }
     }

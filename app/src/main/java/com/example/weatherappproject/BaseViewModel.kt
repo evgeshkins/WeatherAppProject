@@ -27,6 +27,9 @@ class BaseViewModel(val database: MainDb): ViewModel() {
         // очищаем поле для ввода
         cityInput.value = ""
     }
+    fun deleteCity(item: CityEntity) = viewModelScope.launch {
+        database.dao.deleteCity(item)
+    }
 
     companion object{
         // вместо конструкторов в ViewModel используются фабрики
