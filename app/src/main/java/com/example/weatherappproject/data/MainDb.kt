@@ -7,8 +7,9 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [CityEntity::class], version = 1)
 abstract class MainDb: RoomDatabase() {
-    // создание бд
+   abstract val dao: DataAccessObject // переменная интерфейса, использующегося для заполнения, редактирования, удаления данных в бд
     companion object{
+        // создание бд
         fun createDataBase(context: Context): MainDb{
             return Room.databaseBuilder(context, MainDb::class.java, "city.db").build()
         }
