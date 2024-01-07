@@ -14,17 +14,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.weatherappproject.data.CityEntity
 
 @Composable
-fun ListItem() {
+fun ListItem(item: CityEntity, onClick: (CityEntity) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(5.dp)
-            .clickable {  }
+            .clickable { onClick(item) }
     ) {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Card for city text", modifier = Modifier
+            Text(text = item.cityName, modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
                 .padding(10.dp))
