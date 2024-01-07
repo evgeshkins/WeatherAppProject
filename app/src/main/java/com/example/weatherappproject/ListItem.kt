@@ -1,5 +1,6 @@
 package com.example.weatherappproject
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,7 @@ fun ListItem() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(5.dp)
+            .clickable {  }
     ) {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Card for city text", modifier = Modifier
