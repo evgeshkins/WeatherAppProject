@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.weatherappproject.data.CityEntity
 import com.example.weatherappproject.data.MainDb
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 
 class BaseViewModel(val database: MainDb): ViewModel() {

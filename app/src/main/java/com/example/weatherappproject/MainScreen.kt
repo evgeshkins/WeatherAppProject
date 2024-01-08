@@ -41,7 +41,8 @@ import coil.compose.rememberImagePainter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(onClick: () -> Unit) {
+    var cityNameValue = "Курган"
     Surface(
         color = colorResource(id = R.color.color_primary),
         modifier = Modifier.fillMaxSize()
@@ -54,7 +55,7 @@ fun MainScreen() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(id = R.string.logo),
+                text = cityNameValue,
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp,
                 color = colorResource(id = R.color.text_color),
@@ -64,54 +65,16 @@ fun MainScreen() {
                     .wrapContentSize(Alignment.Center)
             )
 
-            // сохранение состояния поля для ввода
-            var textValue by remember { mutableStateOf("") }
-
-            OutlinedTextField(
-                value = textValue,
-                onValueChange = { newTextValue ->
-                    textValue = newTextValue  // обновление переменной с текстовым значением при вводе
-                },
-                label = { Text(text = stringResource(id = R.string.hint_user_name)) },
-                modifier = Modifier
-                    .padding(top = 20.dp)
-                    .fillMaxWidth()
-                    .wrapContentWidth(Alignment.CenterHorizontally),
-                textStyle = MaterialTheme.typography.bodyLarge,
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    textColor = colorResource(id = R.color.text_color),
-                    focusedBorderColor = Color.Black,
-                    unfocusedBorderColor = Color.Black
-                )
-            )
-
             // сохранение состояния текста результата
             var realTemp = remember { mutableStateOf("") }
             var cloudState = remember { mutableStateOf("") }
             var likeTemp = remember { mutableStateOf("") }
             var imageCode = remember { mutableStateOf("") }
-            Button(
-                onClick = {
-                    // если пользователь не ввел данные о городе
-                    if (textValue.isEmpty()) {
-                        realTemp.value = "Введите город!"
-                    } else {
-                        val key: String = "67c959ae5a4cb9cbc3fad3c8fe6f5d37"
-                        val url: String = "https://api.openweathermap.org/data/2.5/weather?q=$textValue&appid=$key&lang=ru"
-                        val executor = GetURLData(realTemp, cloudState, likeTemp, imageCode)
-                        executor.execute(url)
-                    }
-                },
-                modifier = Modifier
-                    .padding(top = 20.dp)
-                    .fillMaxWidth()
-                    .wrapContentWidth(Alignment.CenterHorizontally)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.main_btn),
-                    fontWeight = FontWeight.Bold
-                )
-            }
+
+            val key: String = "67c959ae5a4cb9cbc3fad3c8fe6f5d37"
+            val url: String = "https://api.openweathermap.org/data/2.5/weather?q=$cityNameValue&appid=$key&lang=ru"
+            val executor = GetURLData(realTemp, cloudState, likeTemp, imageCode)
+            executor.execute(url)
 
             Text(
                 text = realTemp.value,

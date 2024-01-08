@@ -62,6 +62,12 @@ dependencies {
             force ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22")
         }
     }
+    val nav_version = "2.7.6"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation("com.google.accompanist:accompanist-navigation-animation:0.20.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-compose:2.4.0-alpha10")
     implementation("androidx.room:room-ktx:2.5.1")
     implementation("androidx.room:room-runtime:2.5.1")
     kapt ("androidx.room:room-compiler:2.5.1")

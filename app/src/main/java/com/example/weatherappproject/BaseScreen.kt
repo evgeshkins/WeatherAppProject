@@ -25,14 +25,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BaseScreen(
+    onClick: () -> Unit,
     baseViewModel: BaseViewModel = viewModel(factory = BaseViewModel.factory)
 ) {
     val citiesList = baseViewModel.citiesList.collectAsState(initial = emptyList())
-
+    val citiesListAsList = citiesList.value.toList()
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -56,10 +58,11 @@ fun BaseScreen(
             }
         }
         Spacer(modifier = Modifier.height(5.dp))
+        val navController = rememberNavController()
         // ленивая колонка - рендерит не все карточки сразу, а только те, которые видны пользователю на данный момент
         LazyColumn(modifier = Modifier.fillMaxWidth())
         {
-            items(citiesList.value){item ->
+            items(citiesListAsList){item ->
                 ListItem(item,
                     {
                         baseViewModel.cityEntity = it
@@ -67,7 +70,7 @@ fun BaseScreen(
                     },
                     {
                         baseViewModel.deleteCity(it)
-                    })
+                    }, onClick)
             }
         }
     }
