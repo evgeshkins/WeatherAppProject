@@ -18,7 +18,8 @@ import java.net.URL
 class GetURLData(private val realState: MutableState<String>,
     private val cloudStateArg: MutableState<String>,
     private val likeState: MutableState<String>,
-    private val imageState: MutableState<String>): AsyncTask<String, String, String>() {
+    private val imageState: MutableState<String>,
+                 private val windState: MutableState<String>): AsyncTask<String, String, String>() {
 class GetURLData
 
     override fun onPreExecute() {
@@ -67,14 +68,16 @@ class GetURLData
     override fun onPostExecute(result: String?) {
         super.onPostExecute(result)
         val jsonObj: JSONObject = JSONObject(result)
-        val realTemp = Math.ceil(jsonObj.getJSONObject("main").getDouble("temp") - 274.0).toInt()
-        val likeTemp = Math.ceil(jsonObj.getJSONObject("main").getDouble("feels_like") - 274.0).toInt()
+        val realTemp = Math.ceil(jsonObj.getJSONObject("main").getDouble("temp")).toInt()
+        val likeTemp = Math.ceil(jsonObj.getJSONObject("main").getDouble("feels_like")).toInt()
         val cloudState = jsonObj.getJSONArray("weather").getJSONObject(0).getString("description").replaceFirstChar{ it.uppercase() }
         val imageCode = jsonObj.getJSONArray("weather").getJSONObject(0).getString("icon")
+        val windSpeed = jsonObj.getJSONObject("wind").getDouble("speed").toString()
         realState.value = "$realTemp °C"
         cloudStateArg.value = cloudState
         likeState.value = "Ощущается как: $likeTemp °C"
         imageState.value = imageCode
+        windState.value = "Скорость ветра: $windSpeed м/c"
     }
 
 }
