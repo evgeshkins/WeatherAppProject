@@ -30,7 +30,7 @@ import androidx.navigation.compose.rememberNavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BaseScreen(
-    onClick: () -> Unit,
+    onClick: (String) -> Unit,
     baseViewModel: BaseViewModel = viewModel(factory = BaseViewModel.factory)
 ) {
     val citiesList = baseViewModel.citiesList.collectAsState(initial = emptyList())

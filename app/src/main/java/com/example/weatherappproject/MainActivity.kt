@@ -10,9 +10,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.weatherappproject.ui.theme.WeatherAppProjectTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,17 +26,17 @@ class MainActivity : ComponentActivity() {
             NavHost(navController = navController, startDestination = "base_screen") {
                 composable("base_screen") {
                     BaseScreen(
-                        onClick = {
-                            navController.navigate("main_screen")
+                        onClick = { cityName ->
+                            navController.navigate("main_screen/$cityName")
                         }
                     )
                 }
-                composable("main_screen") {
-                    MainScreen(
-                        onClick = {
-                            navController.navigate("base_screen")
-                        }
-                    )
+                composable(
+                    route = "main_screen/{cityName}",
+                    arguments = listOf(navArgument("cityName") { type = NavType.StringType })
+                ) { navBackStackEntry ->
+                    val cityName = navBackStackEntry.arguments?.getString("cityName") ?: ""
+                    MainScreen(onClick = {},cityName = cityName)
                 }
             }
         }

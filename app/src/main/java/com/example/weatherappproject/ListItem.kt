@@ -20,13 +20,13 @@ import androidx.navigation.NavHostController
 import com.example.weatherappproject.data.CityEntity
 
 @Composable
-fun ListItem(item: CityEntity, onClickInsert: (CityEntity) -> Unit, onClickDelete: (CityEntity) -> Unit, onClick: () -> Unit) {
+fun ListItem(item: CityEntity, onClickInsert: (CityEntity) -> Unit, onClickDelete: (CityEntity) -> Unit, onClick: (String) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(5.dp)
             .clickable {
-                onClick()
+                onClick(item.cityName)
             }
     ) {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {

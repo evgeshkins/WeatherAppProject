@@ -21,6 +21,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,8 +42,8 @@ import coil.compose.rememberImagePainter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(onClick: () -> Unit) {
-    var cityNameValue = "Курган"
+fun MainScreen(onClick: (String) -> Unit, cityName: String) {
+    var cityNameValue = cityName
     Surface(
         color = colorResource(id = R.color.color_primary),
         modifier = Modifier.fillMaxSize()
@@ -73,8 +74,10 @@ fun MainScreen(onClick: () -> Unit) {
 
             val key: String = "67c959ae5a4cb9cbc3fad3c8fe6f5d37"
             val url: String = "https://api.openweathermap.org/data/2.5/weather?q=$cityNameValue&appid=$key&lang=ru"
-            val executor = GetURLData(realTemp, cloudState, likeTemp, imageCode)
-            executor.execute(url)
+            LaunchedEffect(Unit) {
+                val executor = GetURLData(realTemp, cloudState, likeTemp, imageCode)
+                executor.execute(url)
+            }
 
             Text(
                 text = realTemp.value,

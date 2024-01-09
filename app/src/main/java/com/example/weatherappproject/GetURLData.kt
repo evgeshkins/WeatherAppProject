@@ -19,7 +19,7 @@ class GetURLData(private val realState: MutableState<String>,
     private val cloudStateArg: MutableState<String>,
     private val likeState: MutableState<String>,
     private val imageState: MutableState<String>): AsyncTask<String, String, String>() {
-
+class GetURLData
 
     override fun onPreExecute() {
         super.onPreExecute()
