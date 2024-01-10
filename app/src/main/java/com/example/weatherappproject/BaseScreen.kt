@@ -42,6 +42,7 @@ fun BaseScreen(
 ) {
     val citiesList = baseViewModel.citiesList.collectAsState(initial = emptyList())
     val citiesListAsList = citiesList.value.toList()
+
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -53,68 +54,80 @@ fun BaseScreen(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
-        ){
+        ) {
             Card(
                 modifier = Modifier
                     .width(150.dp)
                     .padding(top = 15.dp)
-            ){
-                Text(text = "Погода.now",
+            ) {
+                Text(
+                    text = "Погода.now",
                     fontSize = 20.sp,
                     modifier = Modifier
                         .padding(top = 10.dp)
                         .padding(bottom = 10.dp)
                         .fillMaxWidth()
-                        .wrapContentSize(Alignment.Center))
+                        .wrapContentSize(Alignment.Center)
+                )
             }
+        }
 
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-        ){
-            Text(text = "Выберите город:",
-                fontSize = 20.sp,
-                modifier = Modifier
-                    .padding(top = 5.dp)
-                    .fillMaxWidth()
-                    .wrapContentSize(Alignment.Center))
-        }
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            TextField(value = baseViewModel.cityInput.value,
-                onValueChange = {baseViewModel.cityInput.value = it},
-                label = {Text(text = "Добавить город...")},
-                modifier = Modifier.weight(1f),
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.White
-                ))
-            IconButton(onClick = { baseViewModel.insertCity() }) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add city to db")
+            Column(
+                modifier = Modifier.padding(top = 5.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Выберите город:",
+                    fontSize = 20.sp,
+                    modifier = Modifier
+                        .wrapContentSize(Alignment.Center)
+                )
+                Spacer(modifier = Modifier.height(5.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    TextField(
+                        value = baseViewModel.cityInput.value,
+                        onValueChange = { baseViewModel.cityInput.value = it },
+                        label = { Text(text = "Добавить город...") },
+                        modifier = Modifier.weight(1f),
+                        colors = TextFieldDefaults.textFieldColors(
+                            containerColor = Color.White
+                        )
+                    )
+                    IconButton(onClick = { baseViewModel.insertCity() }) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Add city to db"
+                        )
+                    }
+                }
             }
         }
 
-
         Spacer(modifier = Modifier.height(5.dp))
         val navController = rememberNavController()
-        // ленивая колонка - рендерит не все карточки сразу, а только те, которые видны пользователю на данный момент
-        LazyColumn(modifier = Modifier.fillMaxWidth())
-        {
-            items(citiesListAsList){item ->
-                ListItem(item,
+        LazyColumn(modifier = Modifier.fillMaxWidth()) {
+            items(citiesListAsList) { item ->
+                ListItem(
+                    item,
                     {
                         baseViewModel.cityEntity = it
                         baseViewModel.cityInput.value = it.cityName
                     },
                     {
                         baseViewModel.deleteCity(it)
-                    }, onClick)
+                    },
+                    onClick
+                )
             }
         }
     }
