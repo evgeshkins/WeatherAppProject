@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -33,7 +34,7 @@ fun ListItem(item: CityEntity, onClickInsert: (CityEntity) -> Unit, onClickDelet
             Text(text = item.cityName, modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .padding(10.dp))
+                .padding(10.dp), fontWeight = FontWeight.Bold)
             IconButton(onClick = { onClickInsert(item) }) {
                 Icon(imageVector = Icons.Default.Edit, contentDescription = "Delete city from db")
             }

@@ -3,6 +3,8 @@ package com.example.weatherappproject
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,9 +12,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -71,11 +75,12 @@ fun MainScreen(onClick: (String) -> Unit, cityName: String) {
             var cloudState = remember { mutableStateOf("") }
             var likeTemp = remember { mutableStateOf("") }
             var imageCode = remember { mutableStateOf("") }
+            var windSpeed = remember { mutableStateOf("") }
 
             val key: String = "67c959ae5a4cb9cbc3fad3c8fe6f5d37"
-            val url: String = "https://api.openweathermap.org/data/2.5/weather?q=$cityNameValue&appid=$key&lang=ru"
+            val url: String = "https://api.openweathermap.org/data/2.5/weather?q=$cityNameValue&appid=$key&lang=ru&units=metric"
             LaunchedEffect(Unit) {
-                val executor = GetURLData(realTemp, cloudState, likeTemp, imageCode)
+                val executor = GetURLData(realTemp, cloudState, likeTemp, imageCode, windSpeed)
                 executor.execute(url)
             }
 
@@ -126,16 +131,35 @@ fun MainScreen(onClick: (String) -> Unit, cityName: String) {
                 fontSize = 25.sp,
                 textAlign = TextAlign.Center
             )
-            Text(
-                text = likeTemp.value,
+            Card(
                 modifier = Modifier
-                    .padding(top = 20.dp)
-                    .fillMaxWidth()
-                    .wrapContentWidth(Alignment.CenterHorizontally),
-                color = colorResource(id = R.color.text_color),
-                fontSize = 20.sp,
-                textAlign = TextAlign.Center
+                    .width(350.dp)
+                    .padding(top = 40.dp)
             )
+            {
+                Text(
+                    text = likeTemp.value,
+                    modifier = Modifier
+                        .padding(top = 20.dp)
+                        .fillMaxWidth()
+                        .wrapContentWidth(Alignment.CenterHorizontally),
+                    color = Color.Black,
+                    fontSize = 20.sp,
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = windSpeed.value,
+                    modifier = Modifier
+                        .padding(top = 20.dp)
+                        .padding(bottom = 20.dp)
+                        .fillMaxWidth()
+                        .wrapContentWidth(Alignment.CenterHorizontally),
+                    color = Color.Black,
+                    fontSize = 20.sp,
+                    textAlign = TextAlign.Center
+                )
+            }
+
         }
     }
 }
